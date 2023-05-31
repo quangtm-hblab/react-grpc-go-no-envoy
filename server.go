@@ -67,7 +67,7 @@ func main() {
 	//new http server
 	r := http.NewServeMux()
 	// Load the static webpage with a http fileserver
-	webapp := http.FileServer(http.Dir("ui/react-client/build"))
+	webapp := http.FileServer(http.Dir("ui/react-client-ts/build"))
 
 	r.Handle("/", multiplex.Handler((webapp)))
 
