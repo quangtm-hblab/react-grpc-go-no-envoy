@@ -1,24 +1,25 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-
+import React from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import * as grpcWeb from "grpc-web";
+import { SumRequest, SumResponse } from "./protobuf/calculator_pb";
+import { CalculateClient } from "./protobuf/CalculatorServiceClientPb";
 function App() {
+  const callSum = () => {
+    let calClient: CalculateClient = new CalculateClient(
+      "https://localhost:50022"
+    );
+    const req: SumRequest = new SumRequest();
+    req.setNum1(1);
+    req.setNum2(2);
+    calClient.sum(req, {}, (error: grpcWeb.RpcError, res: SumResponse) => {
+      console.log(res.getResult());
+    });
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <button onClick={callSum}>Click</button>
     </div>
   );
 }
